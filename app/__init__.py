@@ -2,9 +2,12 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+#UPLOAD FOLDER
+UPLOAD_FOLDER = "./app/static/uploads"
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "this is a super secure key"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://user:password@localhost/database"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://project1:1234@localhost/project1"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True # added just to suppress a warning
 
 db = SQLAlchemy(app)

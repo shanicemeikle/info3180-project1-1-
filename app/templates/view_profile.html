@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+  <head>
+    <title>Info3180-Project 1</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
+    
+  </head>
+  <br>
+        <header>
+             <h1 class="page-header">{{profile.first_name}}'s Profile</h1>
+        </header>
+    
+  <body>
+      
+    <div id ="profilePic">
+      <div id = "pic">
+    <img src="{{profile.image}}" width="260" height="340">
+    
+     
+    <table id ="profileTableID" >
+      <tbody>
+        
+        <tr>
+           <td>
+              <div id ="name">
+              <h1> {{ profile.first_name}} {{profile.last_name}}</h1>
+              </div>
+          </td>
+        </tr>
+        
+    
+        <tr>
+          <td>
+          <div id ="timeinfo">
+            <br>
+          Profile Created On: {{profile.created_on}} 
+          </div>
+          </td>
+        </tr>
+        
+        <tr>
+            <td>
+              <div class ="profile"> 
+              <br>
+              <br>
+              <p> Username : {{profile.username}}</p>
+              <p> User ID : {{profile.userid}}</p>
+              <p> Gender : {{profile..gender}} </p>
+              <p> Age : {{profile.age}}</p>
+              
+              </div>
+          </td>
+        </tr>
+        
+        <tr>
+          <td>
+          <div id ="timeinfo">
+            <br>
+          <p>  {{profile.biography}} </p> 
+          </div>
+          </td>
+        </tr>
+        <tbody>
+    </table>
+    </div>
+    </div>
+  </body> 
+      
+
+
+{% endblock %}

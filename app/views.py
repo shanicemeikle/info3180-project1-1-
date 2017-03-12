@@ -6,10 +6,17 @@ This file creates your application.
 """
 
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from forms import LoginForm
 from models import UserProfile
+from werkzeug.utils import secure_filename
+
+import time
+#import uiud
+import json
+import os
+from random import randint
 
 ###
 # Routing for your application.
@@ -88,7 +95,91 @@ def flash_errors(form):
                 error
             ), 'danger')
 
+# route to register user
+#@app.route('/forms', methods=['GET', 'POST'])
+#def register():
+#    form = RegistrationForm(request.form)
+#    if request.method == 'POST' and form.validate():
+#        user = UserProfile(form.lastname.data, form.lastname.data,
+#                    form.age.data, form.bio.data, form.gender.data)
+#        db.session.add(user)
+#        db.session.commit()
+#        flash('Thanks for registering')
+ #      return redirect(url_for('home'))
+    #return render_template('register.html', form=form)##
 
+#route for creating user profile
+@app.route('/profile', methods=['POST','GET'])
+def profile():
+    if request.method == 'POST':
+        #generating userid
+        userid = randint(100000,199999)
+        
+        #collecting form info
+        f_name =request.form['fname']
+        l_name =request.form['lname']
+        user_name =request.form['username']
+        age =request.form['age']
+        gender = request.form['gender']
+        biography = request.form['bio']
+        
+        #uploading of profie pic
+        profile_image = request.files['file']
+        if profile_image:
+            file_folder = app.config['UPLOAD_FOLDER']
+            filename = secure_filename(profile_image.filename)
+            profile_image.save(os.path.join(file_folder, filename))
+        #flash('File uploaded')
+        
+        #getting date created on
+        created_on = time.strftime('%Y/%b/%d')
+        
+        #inserting values into the database
+        user = UserProfile(userid=userid,firstname=f_name,lastname=l_name,username=user_name,bio=biography,age=age,
+        gender=gender,created_on=created_on, profile_image=profile_image.filename)
+        db.session.add(user)
+        db.session.commit()
+        flash('Profile successfully added')
+        return redirect(url_for('home'))
+    return render_template('profile.html')
+    
+# route for viewing a list of all user profiles
+@app.route('/profile_list2', methods=['GET', 'POST'])
+def profile_list2():
+    userlist=[]
+
+    #get all profiles from database
+    users = UserProfile.query.filter_by().all()
+    
+    #checking for JSON only
+    #if request.headers['Content-Type']=='application/json' or 
+    if request.method == "POST":
+        #create list of profiles in json format
+        for user in users:
+            userlist += [{'username':user.username, 'userid':user.userid}]
+
+        return jsonify(users=userlist)
+    elif request.method == 'GET':
+        return render_template('profile_list2.html', profiles=users)
+
+    return redirect(url_for('home'))
+
+# route for viewing individual profile
+@app.route('/profile/<userid>', methods=['GET', 'POST'])
+def userprofile(userid):
+    userjson={}
+    #get specific profile from database
+    user = UserProfile.query.filter_by(userid=userid).first()
+    if request.method == 'POST':
+        #create json formatted data
+        userjson={'userid':user.userid, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on}
+        return jsonify(userjson)
+
+    elif request.method == 'GET' and user:
+        return render_template('view_profile.html', profile=user)
+
+    return render_template('profile.html')
+    
 ###
 # The functions below should be applicable to all Flask apps.
 ###

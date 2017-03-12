@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+
+<div style="margin-top:50px;">
+<h1>All Profiles:</h1>
+</div>
+<p>Select the profile you want to view</p>
+<div style="margin-top:35px;"
+<ul>
+{% for user in users %}
+<li>
+<a href="/profile/{{user.userid}}" method="post">
+
+{{user.username}}
+{{user.userid}}
+</a>
+</li>
+
+{% endfor %}
+</ul>
+</div>
+ 
+{% endblock %}

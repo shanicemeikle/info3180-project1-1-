@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block css %}
+<!-- profileformcss -->
+<link href="/static/css/profileform.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+    {% include 'flash_messages.html' %}
+    <h1>New Profile</h1>
+    <hr/>
+    <p>
+        Fill in the form to create your profile.<br/>
+        <span class="required">
+            <strong>(Note: fields marked with * are required)</strong>
+        </span>
+    </p>
+    <br/>
+
+    <form action="{{ url_for('profile') }}" method="post"  enctype="multipart/form-data">
+        <div class="form-element">
+            <label for="fname"><span class="required">* </span>First Name </label>
+            <p>Please enter your first name</p>
+            <input type="text" id="fname" name="fname" required/>
+        </div>
+
+        <div class="form-element">
+            <label for="lname"><span  class="required">* </span>Last Name</label>
+            <p>Please enter your last name</p>
+            <input type="text" id="lname" name="lname" required/>
+        </div>
+
+        <div class="form-element">
+            <label for="username"><span  class="required">* </span>Username</label>
+            <p>Please enter your username</p>
+            <input type="text" id="username" name="username" required/>
+        </div>
+      
+        <div class="form-element">
+            <label for="age"><span  class="required">* </span>Age</label>
+            <p>Please enter your age</p>
+            <input type="number" id="age" name="age" min="1" max="110" required/>
+        </div>
+
+        <div class="form-element">
+            <label for="gender"><span  class="required">* </span>Gender</label>
+            <p>Please select your gender</p>
+            <input type="radio" id="gender1" name="gender" value="male" required/>Male
+            <input type="radio" id="gender2" name="gender" value="female" required/>Female
+        </div>
+
+        <div class="form-element">
+            <label for="file"><span  class="required">* </span>Profile Picture</label>
+            <p>Please upload a profile photo</p>
+            <input type ="file" id="file" name="file" required></input>
+        </div>
+
+        <div class="form-element">
+            <label for="bio"><span  class="required">* </span>Biography</label>
+            <p>Please enter a short biography</p>
+            <textarea id="bio" name="bio" required></textarea>
+        </div>
+
+        <button class="btn btn-lg btn-default submit-btn" type="submit">Submit</button>
+    </form>
+{% endblock %}
