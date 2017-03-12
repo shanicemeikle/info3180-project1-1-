@@ -139,7 +139,7 @@ def profile():
         gender=gender,created_on=created_on, profile_image=profile_image.filename)
         db.session.add(user)
         db.session.commit()
-        flash('Profile successfully added')
+        #flash('Profile successfully added')
         return redirect(url_for('home'))
     return render_template('profile.html')
     
@@ -149,18 +149,18 @@ def profile_list2():
     userlist=[]
 
     #get all profiles from database
-    users = UserProfile.query.filter_by().all()
+    user = db.session.query(UserProfile).all()
     
     #checking for JSON only
     #if request.headers['Content-Type']=='application/json' or 
     if request.method == "POST":
         #create list of profiles in json format
-        for user in users:
+        for user in user:
             userlist += [{'username':user.username, 'userid':user.userid}]
 
-        return jsonify(users=userlist)
+        return jsonify(user=userlist)
     elif request.method == 'GET':
-        return render_template('profile_list2.html', profiles=users)
+        return render_template('profile_list2.html', user=user)
 
     return redirect(url_for('home'))
 
@@ -172,11 +172,11 @@ def userprofile(userid):
     user = UserProfile.query.filter_by(userid=userid).first()
     if request.method == 'POST':
         #create json formatted data
-        userjson={'userid':user.userid, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on}
+        userjson={'userid':user.userid, 'first_name':user.first_name, 'last_name':user.last_name, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on}
         return jsonify(userjson)
 
     elif request.method == 'GET' and user:
-        return render_template('view_profile.html', profile=user)
+        return render_template('view_profile.html', user=user)
 
     return render_template('profile.html')
     

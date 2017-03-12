@@ -9,14 +9,14 @@
   </head>
   <br>
         <header>
-             <h1 class="page-header">{{profile.first_name}}'s Profile</h1>
+             <h1 class="page-header">{{user.first_name}}'s Profile</h1>
         </header>
     
   <body>
       
     <div id ="profilePic">
       <div id = "pic">
-    <img src="{{profile.image}}" width="260" height="340">
+    <img src="{{user.profile_image}}" width="260" height="340">
     
      
     <table id ="profileTableID" >
@@ -25,7 +25,7 @@
         <tr>
            <td>
               <div id ="name">
-              <h1> {{ profile.first_name}} {{profile.last_name}}</h1>
+              <h1> {{ user.first_name}} {{user.last_name}}</h1>
               </div>
           </td>
         </tr>
@@ -35,7 +35,7 @@
           <td>
           <div id ="timeinfo">
             <br>
-          Profile Created On: {{profile.created_on}} 
+          Profile Created On: {{user.created_on}} 
           </div>
           </td>
         </tr>
@@ -45,10 +45,10 @@
               <div class ="profile"> 
               <br>
               <br>
-              <p> Username : {{profile.username}}</p>
-              <p> User ID : {{profile.userid}}</p>
-              <p> Gender : {{profile..gender}} </p>
-              <p> Age : {{profile.age}}</p>
+              <p> Username : {{user.username}}</p>
+              <p> User ID : {{user.userid}}</p>
+              <p> Gender : {{user.gender}} </p>
+              <p> Age : {{user.age}}</p>
               
               </div>
           </td>
@@ -58,7 +58,7 @@
           <td>
           <div id ="timeinfo">
             <br>
-          <p>  {{profile.biography}} </p> 
+          <p>  {{user.biography}} </p> 
           </div>
           </td>
         </tr>
