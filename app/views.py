@@ -11,6 +11,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from forms import LoginForm
 from models import UserProfile
 from werkzeug.utils import secure_filename
+from time import strftime
+from datetime import date, datetime
 
 import time
 #import uiud
@@ -132,14 +134,14 @@ def profile():
         #flash('File uploaded')
         
         #getting date created on
-        created_on = time.strftime('%Y/%b/%d')
+        created_on = datetime.now().strftime("%a, %d %b %Y")
         
         #inserting values into the database
         user = UserProfile(userid=userid,firstname=f_name,lastname=l_name,username=user_name,bio=biography,age=age,
         gender=gender,created_on=created_on, profile_image=profile_image.filename)
         db.session.add(user)
         db.session.commit()
-        #flash('Profile successfully added')
+        flash('Profile successfully added!!')
         return redirect(url_for('home'))
     return render_template('profile.html')
     
@@ -172,7 +174,7 @@ def userprofile(userid):
     user = UserProfile.query.filter_by(userid=userid).first()
     if request.method == 'POST':
         #create json formatted data
-        userjson={'userid':user.userid, 'first_name':user.first_name, 'last_name':user.last_name, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on}
+        userjson={'userid':user.userid, 'first_name':user.firstname, 'last_name':user.lastname, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on}
         return jsonify(userjson)
 
     elif request.method == 'GET' and user:
