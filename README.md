@@ -1,4 +1,4 @@
-# Demo User App
-This demo app demonstrates the use of Flask-Login and Flask-Migrate extensions
+# Info3180 Project 1
+Shanice Meikle 620063723
 
 ## Setup
