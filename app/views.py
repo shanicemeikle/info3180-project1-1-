@@ -172,15 +172,15 @@ def userprofile(userid):
     userjson={}
     #get specific profile from database
     user = UserProfile.query.filter_by(userid=userid).first()
-    if request.method == 'POST':
+    if request.headers.get('content-type') == 'application/json' or request.method == 'POST':
         #create json formatted data
-        userjson={'userid':user.userid, 'first_name':user.firstname, 'last_name':user.lastname, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on}
+        userjson={'userid':user.userid, 'first_name':user.firstname, 'last_name':user.lastname, 'username':user.username, 'profile_image':user.profile_image, 'gender':user.gender, 'age':user.age, 'created_on':user.created_on, 'bio':user.bio}
         return jsonify(userjson)
 
     elif request.method == 'GET' and user:
         return render_template('view_profile.html', user=user)
 
-    return render_template('profile.html')
+    return render_template('profile_list2.html')
     
 ###
 # The functions below should be applicable to all Flask apps.
